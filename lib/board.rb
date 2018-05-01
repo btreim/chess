@@ -1,17 +1,13 @@
 class Board
-	attr_accessor :board
+	attr_reader :cell
 
 	def initialize
-		height = 8
-		width = 8
-		# pawn = "\u2654"
-		@board = Array.new(height) { Array.new(width," #{pawn} ") }
+		create_cells
+	end
+
+	def create_cells
+		@cell = []
+		0.upto(7) { |a| 0.upto(7){ |b| @cell << [a,b]}}
 	end
 
 end
-
-
-
-
-b = Board.new
-b.board.each {|line| puts line.join}
