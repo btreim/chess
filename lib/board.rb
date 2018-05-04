@@ -1,4 +1,6 @@
 require_relative 'pawn'
+require_relative 'knight'
+require_relative 'bishop'
 
 class Board
   attr_reader :cell
@@ -19,6 +21,14 @@ class Board
         cell << Pawn.new(:black)
       elsif cell[0] == 6 # Create White Pawns
         cell << Pawn.new(:white)
+      elsif cell == [7,1] || cell == [7,6]
+        cell << Knight.new(:white)
+      elsif cell == [0,1] || cell == [0,6]
+        cell << Knight.new(:black)
+      elsif cell == [7,2] || cell == [7,5]
+        cell << Bishop.new(:white)
+      elsif cell == [0,2] || cell == [0,5]
+        cell << Bishop.new(:black)
       end
     end
   end
@@ -44,14 +54,28 @@ class Board
     end
   end
 
+  def check(move) # block
+    true
+  end
+
   def movement_options(input) #  Takes full Array WITH PIECE OBJECT as input
     if input.size == 3 # Make sure input includes object @ index [2]
       options = []
       coordinates = input[0..1]
       piece = input[2]
+      not_blocked = true
+
+      moves = piece.rules_of_movement(coordinates) # find valid moves according to Piece movement rules
+      moves.each do | move |
+        move_full = select_cell(move)
+        not_blocked = check(move)
+        if move_full.size != 3 && @cell.include?(move_full[0..1]) && not_blocked  # Make sure move is not already occupied and is on board
+          options << move
+        end
+
+      end
 
       engage_move = piece.rules_of_engagement(coordinates) # find valid enagement moves according to Piece engagement rules
-
       engage_move.each do | move |
         engage_move_full = select_cell(move)
         if engage_move_full.size == 3  # Make sure cell is occupied by opposition (Maybe add a :color equality check)
@@ -59,14 +83,6 @@ class Board
         end
       end
 
-      moves = piece.rules_of_movement(coordinates) # find valid moves according to Piece movement rules
-
-      moves.each do | move |
-        move_full = select_cell(move)
-        if move_full.size != 3  # Make sure move is not already occupied
-          options << move
-        end
-      end
     else
       return []
     end
@@ -75,7 +91,7 @@ class Board
 
   def move(current, target)
     target = select_cell(target)
-    if target.size == 3 
+    if target.size == 3
       target[2] = current.pop
     else
       target << current.pop

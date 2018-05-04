@@ -1,7 +1,6 @@
 class Pawn
   attr_reader :color, :unicode
 
-
   def initialize(color)
     @color = color
     @unicode = set_unicode(color)
