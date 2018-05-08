@@ -54,41 +54,6 @@ class Board
     end
   end
 
-  # def check(move) # block
-  #   true
-  # end
-
-  # def movement_options(input) #  Takes full Array WITH PIECE OBJECT as input
-  #   if input.size == 3 # Make sure input includes object @ index [2] Note: Pretty "If" can be removed. Never will be fed anything but a Piece in practice.
-  #     options = []
-  #     coordinates = input[0..1]
-  #     piece = input[2]
-  #     not_blocked = true
-
-  #     moves = piece.rules_of_movement(coordinates) # find valid moves according to Piece movement rules
-  #     moves.each do | move |
-  #       move_full = select_cell(move)
-  #       not_blocked = check(move)
-  #       if move_full.size != 3 && @cell.include?(move_full[0..1]) && not_blocked  # Make sure move is not already occupied and is on board
-  #         options << move
-  #       end
-
-  #     end
-
-  #     engage_move = piece.rules_of_engagement(coordinates) # find valid enagement moves according to Piece engagement rules
-  #     engage_move.each do | move |
-  #       engage_move_full = select_cell(move)
-  #       if engage_move_full.size == 3  # Make sure cell is occupied by opposition (Maybe add a :color equality check)
-  #         options << move
-  #       end
-  #     end
-
-  #   else
-  #     return []
-  #   end
-  #   return options
-  # end
-
   def movement_options(input)
     options = []
     coordinates = input[0..1]
