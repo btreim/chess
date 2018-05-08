@@ -16,21 +16,21 @@ describe "Pawn" do
   describe "#rules_of_movement" do
     context "when :white " do
       it "moving from origin returns two upward movement options" do
-        expect(pawn.rules_of_movement([6,0])).to eql([[5,0],[4,0]])
+        expect(pawn.rules_of_movement([6,0])).to eql([[[5,0],[4,0]]])
       end
 
       it "moving any other space returns one upward movement option" do
-        expect(Pawn.new(:white).rules_of_movement([4,0])).to eql([[3,0]])
+        expect(Pawn.new(:white).rules_of_movement([4,0])).to eql([[[3,0]]])
       end
     end
     context "when :black " do
       let(:pawn) { Pawn.new(:black) }
       it "moving from origin returns two downward movement options" do
-        expect(pawn.rules_of_movement([1,0])).to eql([[2,0],[3,0]])
+        expect(pawn.rules_of_movement([1,0])).to eql([[[2,0],[3,0]]])
       end
 
       it "moving any other space returns one downward movement option" do
-        expect(Pawn.new(:black).rules_of_movement([2,0])).to eql([[3,0]])
+        expect(Pawn.new(:black).rules_of_movement([2,0])).to eql([[[3,0]]])
       end
     end
   end

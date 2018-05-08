@@ -12,6 +12,7 @@ class Knight
 
   def rules_of_movement(position)
     moves = []
+    options = []
 
     move_1 = [(position[0] + 2 ), (position[1] + 1)] # Up and to the right
     move_2 = [(position[0] + 2 ), (position[1] - 1)] # Up and to the left
@@ -23,10 +24,8 @@ class Knight
     move_8 = [(position[0] - 1 ), (position[1] - 2)] # Left and to the left
 
     moves = [move_1, move_2, move_3, move_4, move_5, move_6, move_7, move_8]
-    return moves
-  end
+    options << moves
+    return options
+  end 
 
-  def rules_of_engagement(position)
-    rules_of_movement(position) # No seperate engagement rules
-  end
 end

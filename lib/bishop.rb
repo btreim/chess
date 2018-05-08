@@ -12,22 +12,27 @@ class Bishop
 
   def rules_of_movement(position)
     moves = []
-
+    move1 = []
+    move2 = []
+    move3 = []
+    move4 = []
     x = 1
     y = 1
 
-    until x == 8
-      moves << [(position[0] + x), (position[1] + y)] # Diagonally down and right
-      moves << [(position[0] - x), (position[1] - y)] # Diagonally up and left
-      moves << [(position[0] + x), (position[1] -  y)] # Diagonally down and left
-      moves << [(position[0] - x), (position[1] +  y)] # Diagonally up and right
+    until x == 7
+
+      move1 << [(position[0] - x), (position[1] - y)] # Diagonally up and left
+      move2 << [(position[0] - x), (position[1] +  y)] # Diagonally up and right            
+      move3 << [(position[0] + x), (position[1] + y)] # Diagonally down and right
+      move4 << [(position[0] + x), (position[1] -  y)] # Diagonally down and left
+
       x += 1
       y += 1
     end
-    return moves
+
+    moves << [move1,move2,move3,move4]
+
+    return moves.flatten!(1)
   end
 
-  def rules_of_engagement(position)
-    rules_of_movement(position) # No seperate engagement rules
-  end
 end

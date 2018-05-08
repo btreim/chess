@@ -15,7 +15,7 @@ describe "Board" do
     it "positions :white pawns at row 7" do
       expect(board.cell[48][2]).to be_an_instance_of(Pawn)
     end
-
+    #
   end
 
   describe "#move" do
@@ -25,31 +25,17 @@ describe "Board" do
   end
 
   describe "#movement_options" do
-    context "when given input outside of board" do
-      it "returns an empty array" do
-        expect(board.movement_options([-1,023423])).to eql([])
-      end
+    it 'returns array of possible for Pawn' do
+      expect(board.movement_options(board.cell[48])).to eql([[4,0],[5,0]])
     end
 
-    context "when only given coordinates" do
-      it "returns an empty array" do
-        expect(board.movement_options([0,0])). to eql([])
-      end
+    it 'returns array of possible for Knight' do
+      expect(board.movement_options(board.cell[57])).to eql([[5,0],[5,2]])
     end
 
-    context "when given full array with Piece object" do
-      it "correctly follows #rules_of_movement" do
-        expect(board.movement_options(board.cell[48])).to eql([[5,0],[4,0]])
-      end
+    it 'returns array of possible for Bishop' do
+      expect(board.movement_options(board.cell[61])).to eql([])
     end
 
-    context "when in position to enage opponent" do
-      before do
-        board.move(board.cell[52],[2,4])
-      end
-      it "correctly displays movement options" do
-        expect(board.movement_options(board.cell[20])).to eql([[1,3],[1,5]])
-      end
-    end
   end
 end

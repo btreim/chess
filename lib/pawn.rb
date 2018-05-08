@@ -12,6 +12,7 @@ class Pawn
 
   def rules_of_movement(position)
     moves = []
+    options = []
 
     if color == :white
       if position[0] == 6 # Pawn hasn't moved from origin
@@ -28,7 +29,8 @@ class Pawn
         moves << move_f_1 = [ (position[0] + 1), position[1] ] # Move down one space
       end
     end
-    return moves
+    options << moves
+    return options # Adding extra surround array so that rules-of-movement works on each Piece
   end
 
   def rules_of_engagement(position)
