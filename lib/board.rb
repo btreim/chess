@@ -1,6 +1,9 @@
 require_relative 'pawn'
 require_relative 'knight'
 require_relative 'bishop'
+require_relative 'rook'
+require_relative 'queen'
+require_relative 'king'
 
 class Board
   attr_reader :cell
@@ -29,6 +32,18 @@ class Board
         cell << Bishop.new(:white)
       elsif cell == [0,2] || cell == [0,5]
         cell << Bishop.new(:black)
+      elsif cell == [7,0] || cell == [7,7]
+        cell << Rook.new(:white)
+      elsif cell == [0,0] || cell == [0,7]
+        cell << Rook.new(:black)
+      elsif cell == [7,3]
+        cell << Queen.new(:white)
+      elsif cell == [0,3]
+        cell << Queen.new(:black)
+      elsif cell == [7,4]
+        cell << King.new(:white)
+      elsif cell == [0,4]
+        cell << King.new(:black)
       end
     end
   end
@@ -77,8 +92,11 @@ class Board
           num = index
         end
       end
-      move_ary = move_ary.drop(num)
-      move_ary.each { | move | options << move }
+
+      if piece.class != Knight # don't duplicate the move array if called on Knight
+        move_ary = move_ary.drop(num)
+        move_ary.each { | move | options << move }
+      end
     end
 
     if piece.class == Pawn
@@ -95,8 +113,6 @@ class Board
   end
 
 
-
-
   def move(current, target)
     target = select_cell(target)
     if target.size == 3
@@ -109,14 +125,13 @@ class Board
 
 end
 # b = Board.new
-# # b.move([6,4],[2,4])
 
 # # p b.cell[48]
 # # # b.cell.each {|cell| p cell.first(2).include?([3,0])}
 # # # b.movement_options([6,0])
-# # b.move((b.cell[58]), (b.cell[36]))
-# b.cell.each_with_index do |cell, index|
-#   p "my index #{index}, #{cell}"
-# end
+# b.move((b.cell[1]), (b.cell[36]))
+# 	b.cell.each_with_index do |cell, index|
+# 	  p "my index #{index}, #{cell}"
+# 	end
 
-# p b.movement_options(b.cell[57])
+# p b.movement_options(b.cell[36])

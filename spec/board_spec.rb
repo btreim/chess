@@ -25,17 +25,62 @@ describe "Board" do
   end
 
   describe "#movement_options" do
-    it 'returns array of possible for Pawn' do
-      expect(board.movement_options(board.cell[48])).to eql([[4,0],[5,0]])
-    end
 
-    it 'returns array of possible for Knight' do
-      expect(board.movement_options(board.cell[57])).to eql([[5,0],[5,2]])
-    end
+    describe 'Pawn' do
+      it "returns array of possible" do
+        expect(board.movement_options(board.cell[15])).to eql([[3,7], [2,7]])
+      end
+      before do
+        board.move((board.cell[9]), (board.cell[47]))
+      end
+      it "follows rules of engagement" do 
+		expect(board.movement_options(board.cell[47])).to eql([[6,6]])
+	  end
+	end
 
-    it 'returns array of possible for Bishop' do
-      expect(board.movement_options(board.cell[61])).to eql([])
+  describe 'Knight' do
+    before do
+      board.move((board.cell[6]), (board.cell[36]))
     end
-
+    it "returns array of possible" do
+      expect(board.movement_options(board.cell[36])).to eql([[3, 2], [5, 2], [3, 6], [5, 6], [2, 3], [2, 5], [6, 3], [6, 5]])
+    end
   end
+
+  describe 'Bishop' do
+    before do
+      board.move((board.cell[58]), (board.cell[36]))
+    end
+    it "returns array of possible" do
+      expect(board.movement_options(board.cell[36])).to eql([[2, 2], [3, 3], [2, 6], [3, 5], [5, 5], [5, 3]])
+    end
+  end
+
+  describe 'Rook' do
+    before do
+      board.move((board.cell[56]), (board.cell[36]))
+    end
+    it "returns array of possible" do
+      expect(board.movement_options(board.cell[36])).to eql([[5, 4], [4, 7], [4, 6], [4, 5], [2, 4], [3, 4], [4, 0], [4, 1], [4, 2], [4, 3]])
+    end
+  end
+
+  describe 'Queen' do
+    before do
+      board.move((board.cell[59]), (board.cell[36]))
+    end
+    it "returns array of possible" do
+      expect(board.movement_options(board.cell[36])).to eql([[5, 4], [4, 7], [4, 6], [4, 5], [2, 4], [3, 4], [4, 0], [4, 1], [4, 2], [4, 3], [2, 2], [3, 3], [2, 6], [3, 5], [5, 5], [5, 3]])
+    end
+  end
+
+  describe 'King' do
+    before do
+      board.move((board.cell[4]), (board.cell[36]))
+    end
+    it "returns array of possible" do
+      expect(board.movement_options(board.cell[36])).to eql([[5, 4], [4, 5], [3, 4], [4, 3], [3, 3], [3, 5], [5, 5], [5, 3]])
+    end
+  end
+end
 end
