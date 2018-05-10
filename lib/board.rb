@@ -120,6 +120,7 @@ class Board
     else
       target << current.pop
     end
+    target
   end
 
 
