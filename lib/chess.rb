@@ -1,15 +1,91 @@
 require_relative 'board'
 require 'colorize'
+require 'yaml'
 
 class Chess
 
   attr_accessor :board, :num
-  attr_reader :checkmate
+  attr_reader :checkmate, :game_id
+
 
   def initialize
+    clear_screen
+    home_screen
+  end
+
+  def home_screen
+  	clear_screen
+    print "
+
+	        *****************
+		*CHESS***********
+		******CHESS******
+		***********CHESS*
+		******CHESS******
+		*CHESS***********
+		******CHESS******
+		***********CHESS*
+		*****************
+
+		"
+    puts "\n(1) New Game \n(2) Load Game \n(3) Exit Game"
+    choice = gets.chomp
+    if choice == "2"
+      clear_screen
+      load_file(display_saved_games)
+    elsif choice == "3"
+      clear_screen
+      puts"\n GOODBYE!"
+      exit
+    else
+      generate_new_game
+    end
+  end
+
+  def generate_new_game
     @board = Board.new
     @checkmate = false
     @num = 0
+    game_start
+  end
+
+  def display_saved_games
+  	input = ""
+    files = []
+    Dir.glob("saved/*") { |file| files << file }
+    puts "Please Select a File:"
+    puts "_____________________"
+    files.each_with_index do | file, index |
+      puts "(#{index})#{file[/\/\w*/]}\n"
+    end
+
+    until input.match(/\d/)
+      input = gets.chomp.downcase
+    end
+    files[input.to_i]
+  end
+
+  def load_file(selected)
+    selected = File.open(selected, "r")
+    file = YAML::load(selected)
+    @board = file.board
+    @checkmate = file.checkmate
+    @num = file.num
+    game_start
+  end
+
+  def save_file
+    if @game_id == nil
+      print "Save game as:"
+      input = gets.chomp.downcase.gsub(/\s+/, "")
+      @game_id = input
+    end
+
+    f = "./saved/#{@game_id}.yaml"
+    File.open(f, "w+") { |file| file.write(self.to_yaml) }
+
+    puts "...\n#{@game_id} saved!\n..."
+
   end
 
   def game_start
@@ -22,8 +98,12 @@ class Chess
     end
   end
 
-  def print_status
+  def clear_screen
     system "clear" or system "cls"
+  end
+
+  def print_status
+    clear_screen
     puts "   0    1    2    3    4    5    6    7"
     (8).times do
       puts  " +----+----+----+----+----+----+----+----+"
@@ -81,19 +161,29 @@ class Chess
       new_pos = board.move(pieces[selection],move_option[move_selection])
       check_future(board.movement_options(new_pos))
     else
+      clear_screen
+      print_status
       turn_loop(pieces)
     end
   end
 
   def user_select(pieces)
     puts "Please choose one of the following options:"
+    puts "Type '100' to save game"
+    puts "Type '200' to quit to home screen"
     display(pieces)
     answer = gets.chomp.to_i
     if answer <= pieces.length && answer > 0
       return (answer - 1)
+    elsif answer == 100
+      save_file
+      user_select(pieces)
+    elsif answer == 200
+      home_screen
     else
       user_select(pieces)
     end
+    # clear_screen
   end
 
   def display(pieces)
@@ -111,4 +201,3 @@ end
 
 
 c = Chess.new
-c.game_start
