@@ -4,8 +4,8 @@ The objective is to create a command-line based Chess game that has two players 
 
 Lets get started! 
 
-**HOME SCREEN** ![Home Screen](https://i.imgur.com/Z1n0eDx.png)
+**HOME SCREEN** - ![Home Screen](https://i.imgur.com/Z1n0eDx.png)
               
 
-**GAMEPLAY** ![Gameplay](https://i.imgur.com/HP11lIU.png)
+**GAMEPLAY** - ![Gameplay](https://i.imgur.com/HP11lIU.png)
 
